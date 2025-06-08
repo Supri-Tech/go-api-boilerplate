@@ -2,7 +2,7 @@ package user
 
 import (
 	"encoding/json"
-	"go-crud-api/m/internal/middleware/authjwt"
+	"go-crud-api/m/internal/middleware"
 	"go-crud-api/m/pkg/responseutil"
 	"net/http"
 )
@@ -61,7 +61,7 @@ func (hdl *Handler) Register(response http.ResponseWriter, request *http.Request
 }
 
 func (hdl *Handler) Profile(response http.ResponseWriter, request *http.Request) {
-	claims, ok := request.Context().Value("user").(authjwt.UserClaims)
+	claims, ok := request.Context().Value("user").(middleware.UserClaims)
 	if !ok {
 		responseutil.Error(response, http.StatusBadRequest, "unauthorized")
 		return

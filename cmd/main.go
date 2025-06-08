@@ -1,9 +1,7 @@
 package main
 
 import (
-	"go-crud-api/m/internal/container"
-	"go-crud-api/m/internal/db"
-	"go-crud-api/m/internal/routes"
+	"go-crud-api/m/internal/infrastructure"
 	"log"
 	"net/http"
 	"os"
@@ -23,8 +21,8 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	database := db.NewMySQL()
-	container := container.NewContainer(database)
+	database := infrastructure.NewMySQL()
+	container := infrastructure.NewContainer(database)
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
@@ -34,7 +32,7 @@ func main() {
 		w.Write([]byte(`{"message": "API is working"}`))
 	})
 
-	routes.SetupRoutes(r, container)
+	infrastructure.SetupRoutes(r, container)
 
 	log.Println("Server running at :" + port)
 	if err := http.ListenAndServe(":"+port, r); err != nil {

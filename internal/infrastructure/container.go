@@ -1,4 +1,4 @@
-package container
+package infrastructure
 
 import (
 	"database/sql"
